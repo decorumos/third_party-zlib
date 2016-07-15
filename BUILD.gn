@@ -24,8 +24,15 @@ static_library("zlib_x86_simd") {
 }
 
 config("zlib_warnings") {
+  visibility = [ ":*" ]
+
+  cflags = [
+    "-Wno-implicit-function-declaration",
+    "-Wno-shift-negative-value",
+  ]
+
   if (is_clang && (current_cpu == "x86" || current_cpu == "x64")) {
-    cflags = [ "-Wno-incompatible-pointer-types" ]
+    cflags += [ "-Wno-incompatible-pointer-types" ]
   }
 }
 
@@ -72,9 +79,14 @@ static_library("zlib") {
 
 config("minizip_warnings") {
   visibility = [ ":*" ]
+
+  cflags = [
+    "-Wno-implicit-function-declaration",
+  ]
+
   if (is_clang) {
     # zlib uses `if ((a == b))` for some reason.
-    cflags = [ "-Wno-parentheses-equality" ]
+    cflags += [ "-Wno-parentheses-equality" ]
   }
 }
 
